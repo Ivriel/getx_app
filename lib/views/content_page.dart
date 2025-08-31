@@ -1,33 +1,49 @@
-import 'dart:convert';
+import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_app/controllers/data_controller.dart';
 import 'package:getx_app/routes/route_names.dart';
 
-import 'my_detail_page.dart';
-class ContentPage extends StatefulWidget {
-  const ContentPage({Key? key}) : super(key: key);
+class ContentPage extends StatelessWidget {
+  const ContentPage({super.key});
 
-  @override
-  _ContentPageState createState() => _ContentPageState();
-}
-
-class _ContentPageState extends State<ContentPage> {
+  void loadingData(DataController controller){
+    Future.delayed(
+      const Duration(seconds: 2),
+      (){
+        log("We are waiting for 2 seconds for loading");
+            controller.isLoading = false;
+      }
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
-    double height=MediaQuery.of(context).size.height;
+    final DataController _controller = Get.put(DataController());
+    log("_controller loading value 1 is ${_controller.isLoading}");
+    loadingData(_controller);
+    log("_controller loading value 2 is ${_controller.isLoading}");
+
     double width=MediaQuery.of(context).size.width;
-    int _currentIndex  = 0;
-    return
-      Scaffold(
+
+    return Obx(
+      ()=> _controller.isLoading ? 
+      const Scaffold(
+        backgroundColor: Color(0xFFc5e5f3),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ) ,
+      ) : 
+       Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFFc5e5f3),
         ),
         body: Container(
           padding: const EdgeInsets.only( top:70),
-          color:Color(0xFFc5e5f3),
+          color:const Color(0xFFc5e5f3),
           child: Column(
             children: [
               //james smith
@@ -339,8 +355,8 @@ class _ContentPageState extends State<ContentPage> {
             ],
           ),
         ),
-      );
-
-
+      )
+    );
+     
   }
 }
