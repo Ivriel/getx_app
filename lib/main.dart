@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_app/controllers/fav_controller.dart';
 import 'package:getx_app/routes/route_names.dart';
 import 'views/content_page.dart';
 import 'views/my_detail_page.dart';
 import 'views/my_home_page.dart';
 
 void main() {
+  Get.put(FavController());
   runApp(MyApp());
 }
 

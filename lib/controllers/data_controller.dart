@@ -6,6 +6,12 @@ import 'package:get/get.dart';
 import 'package:getx_app/models/detail_data_model.dart';
 
 class DataController extends GetxController {
+     RxList<DetailDataModel> _dataList = <DetailDataModel>[].obs;
+     List<DetailDataModel> get dataList=>_dataList.value;
+
+     RxList<DetailDataModel> _dataTempList = <DetailDataModel>[].obs;
+     List<DetailDataModel> get dataTempList => _dataList.value;
+
      final _data = DetailDataModel(
       name: "", 
       title: "", 
@@ -29,8 +35,18 @@ class DataController extends GetxController {
 
     Future<void> loadJsonData() async {
       final String jsonString = await rootBundle.loadString('json/detail.json'); // buat ngeload data json (simulasi kaya call api get)
-      final jsonData = jsonDecode(jsonString);
-      _data.value = DetailDataModel.fromJson(jsonData);
+      final List<dynamic> jsonData = jsonDecode(jsonString);
+
+      log("jsonData ${jsonData}");
+      _dataList.value = jsonData.map((item)=> DetailDataModel.fromJson(item)).toList();
+    }
+
+    void updateTempList(int index) {
+      List<DetailDataModel> sortedList = List.from(_dataList);
+      DetailDataModel targetItem = sortedList[index];
+      sortedList.removeAt(index);
+      sortedList.insert(0, targetItem);
+      _dataTempList.assignAll(sortedList);
     }
 
     @override

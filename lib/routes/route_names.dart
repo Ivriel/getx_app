@@ -12,7 +12,7 @@ class RouteNames {
 
   static String getInitial()=> initial; // dikasih pake function gini soalnya biar lebih mudah reusablenya. misal mau ganti nama variabeljadi gausah ganti dibanyak tempat. cukup disini aja
   static String getHomePage()=> homePage;
-  static String getDetailPage()=> detailPage;
+  static String getDetailPage(int id)=> "$detailPage?id=$id"; // passing id sebagai query parameter
   static String getContentPage()=> contentPage;
 
    static List<GetPage> routes = [
@@ -26,7 +26,7 @@ class RouteNames {
         ),
         GetPage(
           name: detailPage, 
-          page: ()=> const DetailPage()
+          page: ()=> DetailPage()
         )
    ];
 }
